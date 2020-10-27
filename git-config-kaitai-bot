@@ -1,6 +1,4 @@
 #!/bin/sh -ef
 
-export GIT_AUTHOR_NAME='Kaitai Bot'
-export GIT_AUTHOR_EMAIL='kaitai-bot@kaitai.io'
-export GIT_COMMITTER_NAME='Kaitai Bot'
-export GIT_COMMITTER_EMAIL='kaitai-bot@kaitai.io'
+git config user.name 'Kaitai Bot'
+git config user.email 'kaitai-bot@kaitai.io'
