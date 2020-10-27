@@ -1,2 +1,2 @@
 # push-artifacts
-A GitHub Action for pushing build artifacts to a remote Git repository
+A Bash script for pushing build artifacts to a remote Git repository
