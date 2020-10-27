@@ -1,4 +1,2 @@
-#!/bin/sh -ef
-
-git config user.name 'Kaitai Bot'
-git config user.email 'kaitai-bot@kaitai.io'
+git config --global user.name 'Kaitai Bot'
+git config --global user.email 'kaitai-bot@kaitai.io'
