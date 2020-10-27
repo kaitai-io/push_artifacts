@@ -17,5 +17,5 @@ for more info.
 For _kaitai-io_ repositories, this can be set by running:
 
 ```bash
-./git-config-kaitai-bot
+./git_config_kaitai_bot
 ```
