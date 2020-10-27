@@ -89,11 +89,6 @@ if [ -z "$repo" ]; then
 	exit 1
 fi
 
-export GIT_AUTHOR_NAME='Kaitai Bot'
-export GIT_AUTHOR_EMAIL='kaitai-bot@kaitai.io'
-export GIT_COMMITTER_NAME='Kaitai Bot'
-export GIT_COMMITTER_EMAIL='kaitai-bot@kaitai.io'
-
 if [ -z "$BOT_SSH_KEY" ]; then
 	echo "BOT_SSH_KEY is not set!"
 	exit 1
