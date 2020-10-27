@@ -19,3 +19,14 @@ For _kaitai-io_ repositories, this can be set by running:
 ```bash
 ./git_config_kaitai_bot
 ```
+
+## Pulling the latest version from dependent projects
+
+If you want to fetch the latest `master` version from
+a dependent repo that has `push_artifacts` as a submodule,
+run this:
+
+```bash
+git pull --recurse-submodule
+git submodule update --remote
+```
