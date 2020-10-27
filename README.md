@@ -16,3 +16,9 @@ export GIT_COMMITTER_EMAIL='kaitai-bot@kaitai.io'
 
 See [`git commit` > Commit information](https://git-scm.com/docs/git-commit#_commit_information)
 for more info.
+
+For _kaitai-io_ repositories, this can be set by running:
+
+```bash
+./git-config-kaitai-bot
+```
