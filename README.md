@@ -1,5 +1,5 @@
 # push_artifacts
-A shell script for pushing build artifacts to a remote Git repository
+A shell script for pushing build artifacts to a remote GitHub repository
 
 ## Git commit information
 
