@@ -94,18 +94,18 @@ fi
 
 unset SSH_AGENT_PID SSH_AUTH_SOCK
 
-echo -n 'Setting up bot key... '
+echo 'Setting up bot key... '
 echo "$BOT_SSH_KEY" | base64 --decode > "$HOME"/bot_id
 chmod 600 "$HOME"/bot_id
 echo OK
 
-echo -n 'Checking if key looks valid... '
+echo 'Checking if key looks valid... '
 key_head=$(head -n1 "$HOME"/bot_id)
 if [ "$key_head" != '-----BEGIN RSA PRIVATE KEY-----' ]; then
 	echo 'Nope, key seems to be invalid'
 	exit 1
 fi
-echo -n 'OK, '
+echo 'OK, '
 
 echo 'Setting up known_hosts'
 mkdir -p "$HOME"/.ssh
@@ -126,7 +126,7 @@ fi
 
 if [ "$need_add_ssh_key" = 1 ]; then
 	echo '... setting up github.com key'
-	echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> $HOME/.ssh/known_hosts
+	echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> "$HOME"/.ssh/known_hosts
 fi
 
 # Dump bot_id SHA1 to check key validity. Linux uses "sha1sum", OS X uses
@@ -139,7 +139,7 @@ sha1sum "$HOME"/bot_id || shasum "$HOME"/bot_id || :
 # Squelch long git push strategy explanations
 git config --global push.default simple
 
-echo -n 'Setting up ssh wrapper... '
+echo 'Setting up ssh wrapper... '
 cat >"$HOME"/git-ssh <<__EOF__
 #!/bin/sh -efx
 ssh -i "$HOME/bot_id" "\$@"
@@ -180,6 +180,6 @@ git commit -m "Submitted results from Travis build"
 echo 'Pushing...'
 git push -u origin "$branch"
 
-echo -n 'Cleaning up the key and wrapper... '
+echo 'Cleaning up the key and wrapper... '
 rm "$HOME/bot_id" "$HOME/git-ssh"
 echo OK
