@@ -1,4 +1,4 @@
-#!/bin/bash -ef
+#!/bin/sh -ef
 
 # publish: publishes build results to a certain repository.
 #
@@ -19,9 +19,9 @@
 
 usage()
 {
-	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] [ -x=<path> ]... <srcdir>... | --help"
+	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] -- [ --exclude=<path> ]... <srcdir>... | --help"
 	echo
-	echo "Example: $0 -o kaitai-io -r ci_artifacts -b my-branch -x=.git -x=.travis.yml tests/test_out"
+	echo "Example: $0 -o kaitai-io -r ci_artifacts -b my-branch -- --exclude=.git --exclude=.travis.yml tests/test_out"
 	echo
 	echo 'Options:'
 	echo
@@ -34,12 +34,13 @@ usage()
 	echo '  -b, --branch <name>'
 	echo '          branch of the target repository to which to publish (optional)'
 	echo
-	echo '  -x=, --exclude=<path>'
+	echo '  --exclude=<path>'
 	echo '          exclude path from being published (optional)'
+	echo
+	echo '  -h, --help'
+	echo '          show this help'
 }
 
-include_paths=()
-exclude_args=()
 while [ "$1" != "" ]; do
 	case $1 in
 		-o | --owner )
@@ -54,26 +55,23 @@ while [ "$1" != "" ]; do
 			shift
 			branch=$1
 			;;
-		-x=* | --exclude=* )
-			exclude_args+=("--exclude=${1#*=}")
-			;;
 		-h | --help )
 			usage
 			exit
 			;;
+		-- ) # end of options
+			shift
+			break
+			;;
 		* )
-			include_paths+=("$1")
+			echo "Error: unknown option $1"
+			echo
+			usage
+			exit 1
 			;;
 	esac
 	shift
 done
-
-if [ ${#include_paths[@]} -eq 0 ]; then
-	echo "Error: you must specify at least one <srcdir> to publish"
-	echo
-	usage
-	exit 1
-fi
 
 if [ -z "$owner" ]; then
 	echo 'Error: missing option -o (--owner)'
@@ -172,8 +170,7 @@ else
 fi
 
 echo 'Updating the files...'
-$exclude_dirs
-"$RSYNC_BIN" --delete-after -c "${exclude_args[@]}" -r -v "${include_paths[@]}" "$repo"
+"$RSYNC_BIN" --delete-after -c -r -v "$@" "$repo"
 
 echo 'Adding and committing...'
 cd "$repo"

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -ef
 
 export GIT_AUTHOR_NAME='Kaitai Bot'
 export GIT_AUTHOR_EMAIL='kaitai-bot@kaitai.io'
