@@ -168,7 +168,7 @@ export GIT_SSH="$HOME/git-ssh"
 echo 'OK'
 
 echo 'Cloning website repo...'
-if git clone --branch="$branch" git@github.com:"$owner"/"$repo".git; then
+if git clone ${branch:+--branch "$branch"} git@github.com:"$owner"/"$repo".git; then
 	echo "OK"
 else
 	echo "Branch seems to be not available => trying to create it"
@@ -201,7 +201,7 @@ git add --all .
 git commit -m "${commit_msg:-Submitted results from Travis build}"
 
 echo 'Pushing...'
-git push -u origin "$branch"
+git push -u origin ${branch:+"$branch"}
 
 echo 'Cleaning up the key and wrapper... '
 rm "$HOME/bot_id" "$HOME/git-ssh"
