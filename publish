@@ -52,7 +52,8 @@ usage()
 }
 
 while [ "$1" != "" ]; do
-	case $1 in
+	# xargs trims the whitespace around the option
+	case $(echo "$1" | xargs) in
 		-o | --owner )
 			shift
 			owner=$1
