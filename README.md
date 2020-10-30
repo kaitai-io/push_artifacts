@@ -28,5 +28,5 @@ run this:
 
 ```bash
 git pull --recurse-submodule
-git submodule update --remote
+git submodule update --remote push_artifacts
 ```
