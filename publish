@@ -19,7 +19,7 @@
 
 usage()
 {
-	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] [ -d <subdir> ] -- [ --exclude=<path> ]... <srcdir>... | --help"
+	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] [ -d <subdir> ] [ -m <msg> ] -- [ --exclude=<path> ]... <srcdir>... | --help"
 	echo
 	echo "Example: $0 -o kaitai-io -r ci_artifacts -b my-branch -- --exclude=.git --exclude=.travis.yml tests/test_out"
 	echo
@@ -39,7 +39,10 @@ usage()
 	echo '          branch of the target repository to which to publish (optional)'
 	echo
 	echo '  -d, --outdir <subdir>'
-	echo '          destination subdirectory of the target repo where to publish the <srcdir> contents'
+	echo '          destination subdirectory in the target repo where to publish the <srcdir> contents (optional)'
+	echo
+	echo '  -m, --commit-msg <msg>'
+	echo '          commit message (optional, default: "Submitted results from Travis build")'
 	echo
 	echo '  --exclude=<path>'
 	echo '          exclude path from being published (optional)'
@@ -65,6 +68,10 @@ while [ "$1" != "" ]; do
 		-d | --outdir )
 			shift
 			outdir=$1
+			;;
+		-m | --commit-msg )
+			shift
+			commit_msg=$1
 			;;
 		-h | --help )
 			usage
@@ -190,7 +197,7 @@ echo 'Updating the files...'
 echo 'Adding and committing...'
 cd "$repo"
 git add --all .
-git commit -m "Submitted results from Travis build"
+git commit -m "${commit_msg:-Submitted results from Travis build}"
 
 echo 'Pushing...'
 git push -u origin "$branch"
