@@ -19,9 +19,13 @@
 
 usage()
 {
-	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] -- [ --exclude=<path> ]... <srcdir>... | --help"
+	echo "Usage: $0 -o <login> -r <name> [ -b <name> ] [ -d <subdir> ] -- [ --exclude=<path> ]... <srcdir>... | --help"
 	echo
 	echo "Example: $0 -o kaitai-io -r ci_artifacts -b my-branch -- --exclude=.git --exclude=.travis.yml tests/test_out"
+	echo
+	echo 'Arguments:'
+	echo '  <srcdir>'
+	echo '          source directory to publish'
 	echo
 	echo 'Options:'
 	echo
@@ -33,6 +37,9 @@ usage()
 	echo
 	echo '  -b, --branch <name>'
 	echo '          branch of the target repository to which to publish (optional)'
+	echo
+	echo '  -d, --outdir <subdir>'
+	echo '          destination subdirectory of the target repo where to publish the <srcdir> contents'
 	echo
 	echo '  --exclude=<path>'
 	echo '          exclude path from being published (optional)'
@@ -54,6 +61,10 @@ while [ "$1" != "" ]; do
 		-b | --branch )
 			shift
 			branch=$1
+			;;
+		-d | --outdir )
+			shift
+			outdir=$1
 			;;
 		-h | --help )
 			usage
@@ -169,8 +180,12 @@ else
 	exit 1
 fi
 
+if [ -n "$outdir" ]; then
+	outdir=/"$outdir"
+fi
+
 echo 'Updating the files...'
-"$RSYNC_BIN" --delete-after -c -r -v "$@" "$repo"
+"$RSYNC_BIN" --delete-after -c -r -v "$@" "$repo""$outdir"
 
 echo 'Adding and committing...'
 cd "$repo"
