@@ -1,6 +1,12 @@
 # push_artifacts
 A shell script for pushing build artifacts to a remote GitHub repository
 
+## Installation
+
+```bash
+git submodule add https://github.com/kaitai-io/push_artifacts.git
+```
+
 ## Git commit information
 
 Make sure you set up the Git identity before running the script, otherwise
