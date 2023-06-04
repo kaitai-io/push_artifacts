@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -euf
+set -ef
 
 # publish: publishes build results to a certain repository.
 #
@@ -155,7 +155,7 @@ git config --global push.default simple
 echo 'Setting up ssh wrapper... '
 cat >"$HOME"/git-ssh <<__EOF__
 #!/usr/bin/env sh
-set -eufx
+set -efx
 ssh -i "$HOME/bot_id" "\$@"
 __EOF__
 chmod a+x "$HOME"/git-ssh
